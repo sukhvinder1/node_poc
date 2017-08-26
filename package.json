@@ -1,0 +1,24 @@
+{
+  "name": "googleActionNode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Sukhvinder Singh",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sukhvinder1/googleActionNode.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sukhvinder1/googleActionNode/issues"
+  },
+  "homepage": "https://github.com/sukhvinder1/googleActionNode#readme"
+}
