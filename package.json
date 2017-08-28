@@ -8,6 +8,7 @@
   },
   "author": "Sukhvinder Singh",
   "dependencies": {
+    "actions-on-google": "1.2.0",
     "body-parser": "^1.15.0",
     "express": "^4.13.4"
   },
