@@ -9,16 +9,36 @@ const ApiAiApp = require('actions-on-google').ApiAiApp;
 exps.use(bodyParser.json());
 
 // API.AI actions
-const WELCOME_ACTION = 'input.welcome';
+const TELL_STRING = 'input.tell.string';
+const TELL_SIMPLE = 'input.tell.simple';
+const TELL_RICH = 'input.tell.rich';
 
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
-  function greetUser (app) {
-    app.tell("Hello World!");
+  function tellString (app) {
+    app.ask('Welcome to action snippets! Say a number.',
+        ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
+    //app.tell("Hello Tell");
+  }
+
+  function tellSimple (app) {
+    app.ask({speech: 'hello', displayText: 'simple'}, ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
+    //app.tell({speech: 'hello', displayText: 'simple'});
+  }
+
+  function tellRich (app) {
+
+    app.ask(
+      app.buildRichResponse()
+            .addSimpleResponse({ speech: 'hello', displayText: 'hi' })
+            .addSuggestions(['Say this', 'or this'])
+    );
   }
 
   let actionMap = new Map();
-  actionMap.set(WELCOME_ACTION, greetUser);
+  actionMap.set(TELL_STRING, tellString);
+  actionMap.set(TELL_SIMPLE, tellSimple);
+  actionMap.set(TELL_RICH, tellRich);
 
   app.handleRequest(actionMap);
 });
