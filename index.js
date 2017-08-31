@@ -13,32 +13,55 @@ const TELL_STRING = 'input.tell.string';
 const TELL_SIMPLE = 'input.tell.simple';
 const TELL_RICH = 'input.tell.rich';
 
+const ASK_STRING = 'input.ask.string';
+const ASK_SIMPLE = 'input.ask.simple';
+const ASK_RICH = 'input.ask.rich';
+
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
   function tellString (app) {
-    app.ask('Welcome to action snippets! Say a number.',
-        ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
-    //app.tell("Hello Tell");
+    app.ask('Welcome to action snippets! Say a number.', ['Say any number', 'Pick a number', 'We can stop here. See you soon.']);
   }
 
   function tellSimple (app) {
-    app.ask({speech: 'hello', displayText: 'simple'}, ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
-    //app.tell({speech: 'hello', displayText: 'simple'});
+    app.tell({speech: 'hello', displayText: 'simple'});
   }
 
   function tellRich (app) {
 
-    app.ask(
+    app.tell(
       app.buildRichResponse()
             .addSimpleResponse({ speech: 'hello', displayText: 'hi' })
-            .addSuggestions(['Say this', 'or this'])
+            .addSuggestions(['Say this', 'or this'],
+                ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
     );
+  }
+
+  function askString() {
+      app.ask('Welcome to action snippets! Say a number.',
+          ['Say any number', 'Pick a number', 'We can stop here. See you soon.']);
+  }
+
+  function askSimple() {
+      app.ask({speech: 'hello', displayText: 'simple'}, ['Say any number', 'Pick a number', 'We can stop here. See you soon.']);
+  }
+
+  function askRich() {
+      app.ask(
+          app.buildRichResponse()
+              .addSimpleResponse({ speech: 'hello', displayText: 'hi' })
+              .addSuggestions(['Say this', 'or this'],
+                  ['Say any number', 'Pick a number', 'We can stop here. See you soon.'])
+      );
   }
 
   let actionMap = new Map();
   actionMap.set(TELL_STRING, tellString);
   actionMap.set(TELL_SIMPLE, tellSimple);
   actionMap.set(TELL_RICH, tellRich);
+  actionMap.set(ASK_STRING, askString);
+  actionMap.set(ASK_SIMPLE, askSimple);
+  actionMap.set(ASK_RICH, askRich);
 
   app.handleRequest(actionMap);
 });
