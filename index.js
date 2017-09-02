@@ -1,4 +1,5 @@
 'use strict';
+process.env.DEBUG = 'actions-on-google:*';
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -18,6 +19,7 @@ const ASK_STRING2 = 'input.ask.string.2';
 const ASK_SIMPLE = 'input.ask.simple';
 const ASK_SIMPLE2 = 'input.ask.simple2';
 const ASK_RICH = 'input.ask.rich';
+const LOCATION = 'request_location_permission';
 
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
@@ -64,6 +66,18 @@ exps.post('/hook', function(request, response) {
       );
   }
 
+  function locat() {
+      let namePermission = app.SupportedPermissions.NAME;
+      let preciseLocationPermission = app.SupportedPermissions.DEVICE_PRECISE_LOCATION
+
+      // Ask for one permission
+      //app.askForPermission('To address you by name', namePermission);
+      // Ask for more than one permission. User can authorize all or none.
+      app.askForPermissions('To address you by name and know your location',
+          [namePermission, preciseLocationPermission]);
+
+  }
+
   let actionMap = new Map();
   actionMap.set(TELL_STRING, tellString);
   actionMap.set(TELL_SIMPLE, tellSimple);
@@ -73,6 +87,7 @@ exps.post('/hook', function(request, response) {
   actionMap.set(ASK_SIMPLE, askSimple);
   actionMap.set(ASK_SIMPLE2, askSimple2);
   actionMap.set(ASK_RICH, askRich);
+  actionMap.set(LOCATION, locat);
 
   app.handleRequest(actionMap);
 });
