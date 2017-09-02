@@ -16,6 +16,7 @@ const TELL_RICH = 'input.tell.rich';
 const ASK_STRING = 'input.ask.string';
 const ASK_STRING2 = 'input.ask.string.2';
 const ASK_SIMPLE = 'input.ask.simple';
+const ASK_SIMPLE2 = 'input.ask.simple2';
 const ASK_RICH = 'input.ask.rich';
 
 exps.post('/hook', function(request, response) {
@@ -47,8 +48,12 @@ exps.post('/hook', function(request, response) {
   }
 
   function askSimple() {
-      app.ask({speech: 'hello', displayText: 'simple'}, ['Say any number', 'Pick a number', 'We can stop here. See you soon.']);
+      app.ask({speech: 'hello', displayText: 'simple'});
   }
+
+    function askSimple2() {
+        app.ask({speech: '<speak>hello</speak>', displayText: 'simple'});
+    }
 
   function askRich() {
       app.ask(
@@ -66,6 +71,7 @@ exps.post('/hook', function(request, response) {
   actionMap.set(ASK_STRING, askString);
   actionMap.set(ASK_STRING2, askString2);
   actionMap.set(ASK_SIMPLE, askSimple);
+  actionMap.set(ASK_SIMPLE2, askSimple2);
   actionMap.set(ASK_RICH, askRich);
 
   app.handleRequest(actionMap);
