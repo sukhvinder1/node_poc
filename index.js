@@ -20,6 +20,8 @@ const ASK_SIMPLE = 'input.ask.simple';
 const ASK_SIMPLE2 = 'input.ask.simple2';
 const ASK_RICH = 'input.ask.rich';
 const LOCATION = 'request_location_permission';
+const LIST = 'list';
+const CAROUSEL = 'list';
 
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
@@ -78,6 +80,72 @@ exps.post('/hook', function(request, response) {
 
   }
 
+    function list (app) {
+        app.askWithList(app.buildRichResponse()
+                .addSimpleResponse('Alright')
+                .addSuggestions(
+                    ['Basic Card', 'List', 'Carousel', 'Suggestions']),
+            // Build a list
+            app.buildList('Things to learn about')
+            // Add the first item to the list
+                .addItems(app.buildOptionItem('MATH_AND_PRIME',
+                    ['math', 'math and prime', 'prime numbers', 'prime'])
+                    .setTitle('Math & prime numbers')
+                    .setDescription('42 is an abundant number because the sum of its ' +
+                        'proper divisors 54 is greater…')
+                    .setImage('http://example.com/math_and_prime.jpg', 'Math & prime numbers'))
+                // Add the second item to the list
+                .addItems(app.buildOptionItem('EGYPT',
+                    ['religion', 'egpyt', 'ancient egyptian'])
+                    .setTitle('Ancient Egyptian religion')
+                    .setDescription('42 gods who ruled on the fate of the dead in the ' +
+                        'afterworld. Throughout the under…')
+                    .setImage('http://example.com/egypt', 'Egypt')
+                )
+                // Add third item to the list
+                .addItems(app.buildOptionItem('RECIPES',
+                    ['recipes', 'recipe', '42 recipes'])
+                    .setTitle('42 recipes with 42 ingredients')
+                    .setDescription('Here\'s a beautifully simple recipe that\'s full ' +
+                        'of flavor! All you need is some ginger and…')
+                    .setImage('http://example.com/recipe', 'Recipe')
+                )
+        );
+    }
+
+    function carousel (app) {
+        app.askWithCarousel(app.buildRichResponse()
+                .addSimpleResponse('Alright! Here are a few things you can learn. Which sounds interesting?')
+                .addSuggestions(
+                    ['Basic Card', 'List', 'Carousel', 'Suggestions']),
+            // Build a carousel
+            app.buildCarousel()
+            // Add the first item to the carousel
+                .addItems(app.buildOptionItem('MATH_AND_PRIME',
+                    ['math', 'math and prime', 'prime numbers', 'prime'])
+                    .setTitle('Math & prime numbers')
+                    .setDescription('42 is an abundant number because the sum of its ' +
+                        'proper divisors 54 is greater…')
+                    .setImage('http://example.com/math_and_prime.jpg', 'Math & prime numbers'))
+                // Add the second item to the carousel
+                .addItems(app.buildOptionItem('EGYPT',
+                    ['religion', 'egpyt', 'ancient egyptian'])
+                    .setTitle('Ancient Egyptian religion')
+                    .setDescription('42 gods who ruled on the fate of the dead in the ' +
+                        'afterworld. Throughout the under…')
+                    .setImage('http://example.com/egypt', 'Egypt')
+                )
+                // Add third item to the carousel
+                .addItems(app.buildOptionItem('RECIPES',
+                    ['recipes', 'recipe', '42 recipes'])
+                    .setTitle('42 recipes with 42 ingredients')
+                    .setDescription('Here\'s a beautifully simple recipe that\'s full ' +
+                        'of flavor! All you need is some ginger and…')
+                    .setImage('http://example.com/recipe', 'Recipe')
+                )
+        );
+    }
+
   let actionMap = new Map();
   actionMap.set(TELL_STRING, tellString);
   actionMap.set(TELL_SIMPLE, tellSimple);
@@ -88,6 +156,8 @@ exps.post('/hook', function(request, response) {
   actionMap.set(ASK_SIMPLE2, askSimple2);
   actionMap.set(ASK_RICH, askRich);
   actionMap.set(LOCATION, locat);
+  actionMap.set(LIST, list);
+  actionMap.set(CAROUSEL, carousel);
 
   app.handleRequest(actionMap);
 });
