@@ -21,7 +21,7 @@ const ASK_SIMPLE2 = 'input.ask.simple2';
 const ASK_RICH = 'input.ask.rich';
 const LOCATION = 'request_location_permission';
 const LIST = 'list';
-const CAROUSEL = 'list';
+const CAROUSEL = 'car';
 
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
