@@ -157,7 +157,7 @@ exps.post('/hook', function(request, response) {
         );
     }
 
-    function basicCard (app) {
+    function askCard (app) {
       app.ask(app.buildRichResponse()
       // Create a basic card and add it to the rich response
 
