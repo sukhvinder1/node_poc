@@ -11,6 +11,8 @@ exps.use(bodyParser.json());
 
 // API.AI actions
 const TELL_STRING = 'input.tell.string';
+const TELL_STRING_SSML = 'input.tell.string.ssml';
+const TELL_2STRING_SSML = 'input.2tell.string.ssml';
 const TELL_SIMPLE = 'input.tell.simple';
 const TELL_RICH = 'input.tell.rich';
 
@@ -19,6 +21,7 @@ const ASK_STRING2 = 'input.ask.string.2';
 const ASK_SIMPLE = 'input.ask.simple';
 const ASK_SIMPLE2 = 'input.ask.simple2';
 const ASK_RICH = 'input.ask.rich';
+const ASK_CARD = 'input.ask.rich.card';
 const LOCATION = 'request_location_permission';
 const LIST = 'list';
 const CAROUSEL = 'car';
@@ -26,7 +29,15 @@ const CAROUSEL = 'car';
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
   function tellString (app) {
-    app.ask('Welcome to action snippets! Say a number.', ['Say any number', 'Pick a number', 'We can stop here. See you soon.']);
+    app.tell('hi');
+  }
+
+  function tellStringSSML (app) {
+    app.tell('<speak>hi</speak>');
+  }
+
+  function tel2lStringSSML (app) {
+        app.tell({speech: '<speak>hello</speak>', displayText: 'simple'});
   }
 
   function tellSimple (app) {
@@ -146,8 +157,27 @@ exps.post('/hook', function(request, response) {
         );
     }
 
+    function basicCard (app) {
+      app.ask(app.buildRichResponse()
+      // Create a basic card and add it to the rich response
+
+      .addSimpleResponse('Math and prime numbers it is!')
+      .addBasicCard(app.buildBasicCard(`42 is an even composite number. It
+        is composed of three distinct prime numbers multiplied together. It
+        has a total of eight divisors. 42 is an abundant number, because the
+        sum of its proper divisors 54 is greater than itself. To count from
+        1 to 42 would take you about twenty-one…`)
+        .setTitle('Math & prime numbers')
+        .addButton('Read more', 'https://sukhsingh.ca/ttc.jpg')
+        .setImage('https://sukhsingh.ca/ttc.jpg', 'Image alternate text')
+      )
+    );
+  }
+
   let actionMap = new Map();
   actionMap.set(TELL_STRING, tellString);
+  actionMap.set(TELL_STRING_SSML, tellStringSSML);
+  actionMap.set(TELL_2STRING_SSML, tel2lStringSSML);
   actionMap.set(TELL_SIMPLE, tellSimple);
   actionMap.set(TELL_RICH, tellRich);
   actionMap.set(ASK_STRING, askString);
@@ -155,6 +185,7 @@ exps.post('/hook', function(request, response) {
   actionMap.set(ASK_SIMPLE, askSimple);
   actionMap.set(ASK_SIMPLE2, askSimple2);
   actionMap.set(ASK_RICH, askRich);
+  actionMap.set(ASK_CARD, askCard);
   actionMap.set(LOCATION, locat);
   actionMap.set(LIST, list);
   actionMap.set(CAROUSEL, carousel);
