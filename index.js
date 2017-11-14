@@ -177,7 +177,9 @@ exps.post('/hook', function(request, response) {
   }
 
   function conf (app) {
-    app.askForConfirmation('Are you sure you want to do that?');
+    app.askForDateTime('When do you want to come in?',
+    'Which date works best for you?',
+    'What time of day works best for you?');
   }
 
   function time (app) {
