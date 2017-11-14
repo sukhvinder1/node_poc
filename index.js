@@ -25,6 +25,8 @@ const ASK_CARD = 'input.ask.rich.card';
 const LOCATION = 'request_location_permission';
 const LIST = 'list';
 const CAROUSEL = 'car';
+const CONFIRMATION = 'conf';
+const TIME = 'input.dateTime';
 
 exps.post('/hook', function(request, response) {
   const app = new ApiAiApp({request, response});
@@ -174,6 +176,14 @@ exps.post('/hook', function(request, response) {
     );
   }
 
+  function conf (app) {
+    app.askForConfirmation('Are you sure you want to do that?');
+  }
+
+  function time (app) {
+    app.askForDateTime('When do you want to come in?');
+  }
+
   let actionMap = new Map();
   actionMap.set(TELL_STRING, tellString);
   actionMap.set(TELL_STRING_SSML, tellStringSSML);
@@ -189,6 +199,8 @@ exps.post('/hook', function(request, response) {
   actionMap.set(LOCATION, locat);
   actionMap.set(LIST, list);
   actionMap.set(CAROUSEL, carousel);
+  actionMap.set(CONFIRMATION, conf);
+  actionMap.set(TIME, time);
 
   app.handleRequest(actionMap);
 });
